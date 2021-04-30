@@ -65,6 +65,22 @@ class App extends Component {
       contact.name.toLocaleLowerCase().includes(normalizedFilter),
     );
   };
+  componentDidMount() {
+    const contacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(contacts);
+
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    // console.log('app component did update');
+
+    if (this.state.contacts !== prevState.contacts) {
+      console.log('changes');
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   render() {
     const visibleContacts = this.getVisibleContacts();
